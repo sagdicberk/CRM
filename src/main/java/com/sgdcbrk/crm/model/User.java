@@ -29,19 +29,19 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ToDo> toDos;
 
-    // Kullanıcının varlıkları
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asset> assets;
 
-    // Kullanıcının notları
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Note> notes;
 
-    // Kullanıcının doğum günü takibi yaptığı kişiler
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Contact> contacts;
 
-    // Kullanıcının aktiviteleri
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Activity> activities;
     
