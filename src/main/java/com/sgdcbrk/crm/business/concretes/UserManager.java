@@ -1,6 +1,8 @@
 package com.sgdcbrk.crm.business.concretes;
 
 import com.sgdcbrk.crm.business.abstracts.UserService;
+import com.sgdcbrk.crm.dto.requests.RegisterRequest;
+import com.sgdcbrk.crm.model.Role;
 import com.sgdcbrk.crm.model.User;
 import com.sgdcbrk.crm.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -16,8 +19,12 @@ public class UserManager implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public void createUser(RegisterRequest request) {
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setRoles(Set.of(Role.USER));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
     }
 
