@@ -1,6 +1,6 @@
 package com.sgdcbrk.crm.controller;
 
-import com.sgdcbrk.crm.auth.AuthService;
+import com.sgdcbrk.crm.business.concretes.auth.AuthService;
 import com.sgdcbrk.crm.dto.requests.LoginRequest;
 import com.sgdcbrk.crm.dto.requests.RegisterRequest;
 import lombok.AllArgsConstructor;

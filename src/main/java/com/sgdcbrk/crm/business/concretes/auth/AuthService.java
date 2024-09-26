@@ -1,4 +1,4 @@
-package com.sgdcbrk.crm.auth;
+package com.sgdcbrk.crm.business.concretes.auth;
 
 import com.sgdcbrk.crm.business.abstracts.UserService;
 import com.sgdcbrk.crm.dto.requests.LoginRequest;
