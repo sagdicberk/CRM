@@ -4,6 +4,7 @@ import com.sgdcbrk.crm.business.concretes.auth.AuthService;
 import com.sgdcbrk.crm.dto.requests.LoginRequest;
 import com.sgdcbrk.crm.dto.requests.RegisterRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.authenticate(request));
+        try {
+            String token = authService.authenticate(request);
+            return ResponseEntity.ok(token);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authService.register(request));
+        try {
+            String message = authService.register(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(message);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
