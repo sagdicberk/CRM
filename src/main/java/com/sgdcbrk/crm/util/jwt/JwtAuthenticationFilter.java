@@ -1,5 +1,6 @@
 package com.sgdcbrk.crm.util.jwt;
 
+import com.sgdcbrk.crm.business.concretes.auth.UserDetailsImp;
 import com.sgdcbrk.crm.business.concretes.auth.UserDetailsServiceImp;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImp userDetailsServiceImp;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil,UserDetailsServiceImp userDetailsImp) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsServiceImp userDetailsImp) {
         this.jwtUtil = jwtUtil;
         this.userDetailsServiceImp = userDetailsImp;
     }
@@ -30,28 +31,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwtToken = null;
         String email = null;
 
+        // Authorization header kontrolü
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        if (authHeader.startsWith("Bearer ")) {
-            jwtToken = authHeader.substring(7);
-            email = jwtUtil.extractEmail(jwtToken);
-        }else{
-            throw new ServletException("Authorization header is incorrect");
-        }
+        // Tokeni ayıkla
+        jwtToken = authHeader.substring(7);
+        email = jwtUtil.extractEmail(jwtToken);
 
-        if( email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        // Email boş değilse ve authentication daha yapılmadıysa
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
-                UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(email);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                UserDetailsImp userDetails = (UserDetailsImp) userDetailsServiceImp.loadUserByUsername(email);
+
+                // Token doğrulaması: email eşleşmesi ve token süresinin geçip geçmediği
+                if (jwtUtil.validateToken(jwtToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+
             } catch (UsernameNotFoundException e) {
                 throw new RuntimeException(e.getMessage() + " : jwtFilter error");
             }
         }
-
 
         filterChain.doFilter(request, response);
     }
