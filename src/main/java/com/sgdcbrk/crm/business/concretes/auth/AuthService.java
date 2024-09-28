@@ -1,8 +1,8 @@
 package com.sgdcbrk.crm.business.concretes.auth;
 
 import com.sgdcbrk.crm.business.abstracts.UserService;
-import com.sgdcbrk.crm.dto.requests.LoginRequest;
-import com.sgdcbrk.crm.dto.requests.RegisterRequest;
+import com.sgdcbrk.crm.dto.user.requests.LoginRequest;
+import com.sgdcbrk.crm.dto.user.requests.RegisterRequest;
 import com.sgdcbrk.crm.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
