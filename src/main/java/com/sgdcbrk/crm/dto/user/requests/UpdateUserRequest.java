@@ -11,7 +11,9 @@ import java.util.Optional;
 @NoArgsConstructor
 public class UpdateUserRequest {
     Optional<String> username;
+
     Optional<String> email;
+
     Optional<String> password;
 
 }
