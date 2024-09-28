@@ -1,4 +1,4 @@
-package com.sgdcbrk.crm.dto.requests;
+package com.sgdcbrk.crm.dto.user.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String username;
+public class LoginRequest {
     private String email;
     private String password;
 }
