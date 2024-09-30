@@ -1,7 +1,9 @@
 package com.sgdcbrk.crm.business.concretes;
 
 import com.sgdcbrk.crm.business.abstracts.UserService;
-import com.sgdcbrk.crm.dto.requests.RegisterRequest;
+import com.sgdcbrk.crm.dto.user.requests.RegisterRequest;
+import com.sgdcbrk.crm.dto.user.requests.UpdateUserRequest;
+import com.sgdcbrk.crm.dto.user.responses.GetAllUserResponse;
 import com.sgdcbrk.crm.model.Role;
 import com.sgdcbrk.crm.model.User;
 import com.sgdcbrk.crm.repository.UserRepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,11 +32,13 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public void updateUser(long id, User user) {
+    public void updateUser(long id, UpdateUserRequest request) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
-        existingUser.setUsername(user.getUsername());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        request.getEmail().ifPresent(existingUser::setEmail);
+        request.getUsername().ifPresent(existingUser::setUsername);
+        request.getPassword()
+                .ifPresent(password -> existingUser.setPassword(passwordEncoder.encode(password)));
+
         userRepository.save(existingUser);
     }
 
@@ -48,7 +53,19 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<GetAllUserResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public GetAllUserResponse convertToDto(User user) {
+        GetAllUserResponse response = new GetAllUserResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setRoles(user.getRoles());
+        return response;
     }
 }
