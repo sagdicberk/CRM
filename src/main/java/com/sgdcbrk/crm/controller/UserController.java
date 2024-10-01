@@ -5,7 +5,7 @@ import com.sgdcbrk.crm.business.concretes.auth.UserDetailsImp;
 import com.sgdcbrk.crm.dto.user.requests.UpdateUserRequest;
 import com.sgdcbrk.crm.dto.user.responses.GetAllUserResponse;
 import com.sgdcbrk.crm.dto.user.responses.GetCurrentUserResponse;
-import com.sgdcbrk.crm.model.User;
+import com.sgdcbrk.crm.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

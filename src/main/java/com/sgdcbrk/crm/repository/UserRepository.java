@@ -1,6 +1,6 @@
 package com.sgdcbrk.crm.repository;
 
-import com.sgdcbrk.crm.model.User;
+import com.sgdcbrk.crm.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

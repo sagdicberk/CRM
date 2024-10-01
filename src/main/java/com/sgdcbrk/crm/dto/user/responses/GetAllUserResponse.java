@@ -1,6 +1,6 @@
 package com.sgdcbrk.crm.dto.user.responses;
 
-import com.sgdcbrk.crm.model.Role;
+import com.sgdcbrk.crm.model.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

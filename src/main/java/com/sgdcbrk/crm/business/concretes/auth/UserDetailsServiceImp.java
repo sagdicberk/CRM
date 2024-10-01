@@ -1,6 +1,6 @@
 package com.sgdcbrk.crm.business.concretes.auth;
 
-import com.sgdcbrk.crm.model.User;
+import com.sgdcbrk.crm.model.user.User;
 import com.sgdcbrk.crm.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

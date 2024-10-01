@@ -3,7 +3,7 @@ package com.sgdcbrk.crm.business.abstracts;
 import com.sgdcbrk.crm.dto.user.requests.RegisterRequest;
 import com.sgdcbrk.crm.dto.user.requests.UpdateUserRequest;
 import com.sgdcbrk.crm.dto.user.responses.GetAllUserResponse;
-import com.sgdcbrk.crm.model.User;
+import com.sgdcbrk.crm.model.user.User;
 
 import java.util.List;
 

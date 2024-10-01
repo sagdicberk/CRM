@@ -1,4 +1,4 @@
-package com.sgdcbrk.crm.model;
+package com.sgdcbrk.crm.model.user;
 
 public enum Role {
     USER, ADMIN
