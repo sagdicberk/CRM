@@ -26,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final UserDetailsServiceImp userDetailsServiceImp;
 
+
     SecurityConfig(UserDetailsServiceImp userDetailsServiceImp) {
         this.userDetailsServiceImp = userDetailsServiceImp;
     }
